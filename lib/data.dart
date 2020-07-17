@@ -1,17 +1,10 @@
-/// coord : {"lon":-0.13,"lat":51.51}
-/// weather : [{"id":300,"main":"Drizzle","description":"light intensity drizzle","icon":"09d"}]
-/// base : "stations"
-/// main : {"temp":280.32,"pressure":1012,"humidity":81,"temp_min":279.15,"temp_max":281.15}
-/// visibility : 10000
-/// wind : {"speed":4.1,"deg":80}
-/// clouds : {"all":90}
-/// dt : 1485789600
-/// sys : {"type":1,"id":5091,"message":0.0103,"country":"GB","sunrise":1485762037,"sunset":1485794875}
-/// id : 2643743
-/// name : "London"
-/// cod : 200
-
+// TODO: Remove Comments which is not helpful
+// TODO: Move this file to a folder named model
 class Data {
+
+  // TODO: I would use https://javiercbk.github.io/json_to_dart/ to generate this
+
+  // TODO: This variables should be public, Dart best practices
   Coord _coord;
   List<Weather> _weather;
   String _base;
@@ -38,6 +31,7 @@ class Data {
   String get name => _name;
   int get cod => _cod;
 
+  // TODO: Use Map Direct Constructor
   Data({
       Coord coord, 
       List<Weather> weather, 
@@ -65,6 +59,7 @@ class Data {
     _cod = cod;
 }
 
+  // TODO: This is risky, use Map<String, dynamic> as the type of the JSON
   Data.fromJson(dynamic json) {
     _coord = json["coord"] != null ? Coord.fromJson(json["coord"]) : null;
     if (json["weather"] != null) {
@@ -115,13 +110,6 @@ class Data {
   }
 
 }
-
-/// type : 1
-/// id : 5091
-/// message : 0.0103
-/// country : "GB"
-/// sunrise : 1485762037
-/// sunset : 1485794875
 
 class Sys {
   int _type;
