@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'data.dart';
+import 'model/weather_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
