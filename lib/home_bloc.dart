@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:patterns_app/coord_model.dart';
 import 'package:patterns_app/server.dart';
 import 'package:rxdart/rxdart.dart';
+import 'weather_service.dart';
 
 import 'server.dart';
 class HomeBloc {
@@ -15,11 +16,14 @@ class HomeBloc {
   static const String KEY_STATUS = 'status';
   static const String KEY_PAYLOAD = 'payload';
 
-  Server _server;
+  //Server _server;
 
-  HomeBloc() {
+  WeatherService _weatherService;
+
+  /*HomeBloc() {
     _server = new Server();
-  }
+  }*/
+  HomeBloc (this._weatherService);
 
   PublishSubject<Map<String, dynamic>> _stateSubject = new PublishSubject();
 
@@ -27,23 +31,27 @@ class HomeBloc {
 
   getWeather() {
     _stateSubject.add({KEY_STATUS: STATUS_CODE_LOADING});
-    _server.getData().then((value) async{
-      try {
-        final result = await InternetAddress.lookup('google.com');
-       // WeatherModel model = WeatherModel.fromJson(jsonDecode(value.toString()));
-        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          _stateSubject
-              .add({KEY_STATUS: STATUS_CODE_SUCCESS,/* KEY_PAYLOAD: model*/});
-        } else {
-          _stateSubject.add({KEY_STATUS: STATUS_CODE_ERROR});
-        }
-      } catch (e) {
+
+    _weatherService.getWeather().then((weatherModel) {
+      if (weatherModel == null) {
         _stateSubject.add({KEY_STATUS: STATUS_CODE_ERROR});
+      } else {
+        _stateSubject.add(
+            {KEY_STATUS: STATUS_CODE_SUCCESS, KEY_PAYLOAD: weatherModel});
       }
     });
   }
 
-  dispose() {
-    _stateSubject.close();
+   refreshWeather() {
+    _stateSubject.add({KEY_STATUS: STATUS_CODE_LOADING});
+
+    _weatherService.refreshWeather().then((weatherModel) {
+      if (weatherModel == null) {
+        _stateSubject.add({KEY_STATUS: STATUS_CODE_ERROR});
+      } else {
+        _stateSubject.add(
+            {KEY_STATUS: STATUS_CODE_SUCCESS, KEY_PAYLOAD: weatherModel});
+      }
+    });
   }
 }

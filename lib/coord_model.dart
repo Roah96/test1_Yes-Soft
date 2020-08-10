@@ -1,4 +1,6 @@
 // TODO: For now we will settle for this, just note that it will change later
+import 'dart:convert';
+
 class WeatherModel {
   Coord coord;
   List<Weather> weather;
@@ -26,6 +28,7 @@ class WeatherModel {
       this.id,
       this.name,
       this.cod});
+  
 
   WeatherModel.fromJson(Map<String, dynamic> json) {
     coord = json['coord'] != null ? new Coord.fromJson(json['coord']) : null;
@@ -47,6 +50,8 @@ class WeatherModel {
     name = json['name'];
     cod = json['cod'];
   }
+
+  WeatherModel.jsonDecode(String string);
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

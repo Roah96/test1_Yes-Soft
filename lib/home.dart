@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:patterns_app/coord_model.dart';
 import 'coord_model.dart';
@@ -7,7 +7,8 @@ import 'getdata.dart';
 import 'home_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
-  final HomeBloc bloc = new HomeBloc();
+   HomeBloc bloc;
+   HomeScreen(this.bloc);
 
   @override
   State<StatefulWidget> createState() => _HomeScreenState();
